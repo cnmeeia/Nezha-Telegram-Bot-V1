@@ -204,14 +204,23 @@ async def overview(update: Update, context: ContextTypes.DEFAULT_TYPE):
         response = f"""📊 **统计信息**
 ===========================
 **服务器数量**： {total_servers}
+
 **在线服务器**： {online_servers}
-**内存**： {used_mem / total_mem * 100 if total_mem else 0:.1f}% [{format_bytes(used_mem)}/{format_bytes(total_mem)}]
-**交换**： {used_swap / total_swap * 100 if total_swap else 0:.1f}% [{format_bytes(used_swap)}/{format_bytes(total_swap)}]
-**磁盘**： {used_disk / total_disk * 100 if total_disk else 0:.1f}% [{format_bytes(used_disk)}/{format_bytes(total_disk)}]
+
+**内存使用率**： {used_mem / total_mem * 100 if total_mem else 0:.1f}% 
+
+**交换使用率**： {used_swap / total_swap * 100 if total_swap else 0:.1f}%
+
+**磁盘使用率**： {used_disk / total_disk * 100 if total_disk else 0:.1f}%
+
 **下行速度**： ↓{format_bytes(net_in_speed)}/s
+
 **上行速度**： ↑{format_bytes(net_out_speed)}/s
+
 **下行流量**： ↓{format_bytes(net_in_transfer)}
+
 **上行流量**： ↑{format_bytes(net_out_transfer)}
+
 **流量对等性**： {transfer_ratio:.1f}%
 
 **更新于**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
@@ -395,19 +404,30 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         response = f"""**{name}** {status}
 ==========================
+
 **ID**: {server.get('id', '未知')}
+
 **IPv4**: {ipv4}
-**IPv6**: {ipv6}
+
 **平台**： {platform}
-**CPU 信息**： {cpu_info}
+
+**CPU信息**： {cpu_info}
+
 **运行时间**： {uptime_days} 天 {uptime_hours} 小时
-**负载**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
-**CPU**： {cpu_usage:.2f}% [{arch}]
-**内存**： {mem_used / mem_total * 100 if mem_total else 0:.1f}% [{format_bytes(mem_used)}/{format_bytes(mem_total)}]
-**交换**： {swap_used / swap_total * 100 if swap_total else 0:.1f}% [{format_bytes(swap_used)}/{format_bytes(swap_total)}]
-**磁盘**： {disk_used / disk_total * 100 if disk_total else 0:.1f}% [{format_bytes(disk_used)}/{format_bytes(disk_total)}]
-**流量**： ↓{format_bytes(net_in_transfer)}     ↑{format_bytes(net_out_transfer)}
-**网速**： ↓{format_bytes(net_in_speed)}/s     ↑{format_bytes(net_out_speed)}/s
+
+**负载状态**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
+
+**CPU状态**： {cpu_usage:.2f}% [{arch}]
+
+**内存状态**： {mem_used / mem_total * 100 if mem_total else 0:.1f}%
+
+**交换状态**： {swap_used / swap_total * 100 if swap_total else 0:.1f}% 
+
+**磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f}%
+
+**流量状态**： ↓{format_bytes(net_in_transfer)}     ↑{format_bytes(net_out_transfer)}
+
+**网速状态**： ↓{format_bytes(net_in_speed)}/s     ↑{format_bytes(net_out_speed)}/s
 
 **更新于**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
 """
@@ -466,19 +486,30 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         response = f"""**{name}** {status}
 ==========================
+
 **ID**: {server.get('id', '未知')}
+
 **IPv4**: {ipv4}
-**IPv6**: {ipv6}
+
 **平台**： {platform}
-**CPU 信息**： {cpu_info}
+
+**CPU信息**： {cpu_info}
+
 **运行时间**： {uptime_days} 天 {uptime_hours} 小时
-**负载**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
-**CPU**： {cpu_usage:.2f}% [{arch}]
-**内存**： {mem_used / mem_total * 100 if mem_total else 0:.1f}% [{format_bytes(mem_used)}/{format_bytes(mem_total)}]
-**交换**： {swap_used / swap_total * 100 if swap_total else 0:.1f}% [{format_bytes(swap_used)}/{format_bytes(swap_total)}]
-**磁盘**： {disk_used / disk_total * 100 if disk_total else 0:.1f}% [{format_bytes(disk_used)}/{format_bytes(disk_total)}]
-**流量**： ↓{format_bytes(net_in_transfer)}     ↑{format_bytes(net_out_transfer)}
-**网速**： ↓{format_bytes(net_in_speed)}/s     ↑{format_bytes(net_out_speed)}/s
+
+**负载状态**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
+
+**CPU状态**： {cpu_usage:.2f}% [{arch}]
+
+**内存状态**： {mem_used / mem_total * 100 if mem_total else 0:.1f}%
+
+**交换状态**： {swap_used / swap_total * 100 if swap_total else 0:.1f}% 
+
+**磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f}%
+
+**流量状态**： ↓{format_bytes(net_in_transfer)}     ↑{format_bytes(net_out_transfer)}
+
+**网速状态**： ↓{format_bytes(net_in_speed)}/s     ↑{format_bytes(net_out_speed)}/s
 
 **更新于**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
 """
@@ -513,16 +544,26 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             response = f"""📊 **统计信息**
 ===========================
+
 **服务器数量**： {total_servers}
+
 **在线服务器**： {online_servers}
-**内存**： {used_mem / total_mem * 100 if total_mem else 0:.1f}% [{format_bytes(used_mem)}/{format_bytes(total_mem)}]
-**交换**： {used_swap / total_swap * 100 if total_swap else 0:.1f}% [{format_bytes(used_swap)}/{format_bytes(total_swap)}]
-**磁盘**： {used_disk / total_disk * 100 if total_disk else 0:.1f}% [{format_bytes(used_disk)}/{format_bytes(total_disk)}]
+
+**内存使用率**： {used_mem / total_mem * 100 if total_mem else 0:.1f}% [{format_bytes(used_mem)}/{format_bytes(total_mem)}]
+
+**交换使用率**： {used_swap / total_swap * 100 if total_swap else 0:.1f}% [{format_bytes(used_swap)}/{format_bytes(total_swap)}]
+
+**磁盘使用率**： {used_disk / total_disk * 100 if total_disk else 0:.1f}% [{format_bytes(used_disk)}/{format_bytes(total_disk)}]
+
 **下行速度**： ↓{format_bytes(net_in_speed)}/s
+
 **上行速度**： ↑{format_bytes(net_out_speed)}/s
+
 **下行流量**： ↓{format_bytes(net_in_transfer)}
+
 **上行流量**： ↑{format_bytes(net_out_transfer)}
-**流量对等性**： {transfer_ratio:.1f}%
+
+**流量对等**： {transfer_ratio:.1f}%
 
 **更新于**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
 """

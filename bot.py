@@ -203,20 +203,14 @@ async def overview(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         response = f"""**统计信息**
         
-===========================
+
 **服务器数量**： {total_servers}
 
 **在线服务器**： {online_servers}
 
-**内存使用率**： {used_mem / total_mem * 100 if total_mem else 0:.1f} % 
+**下行速度**： ↓ {format_bytes(net_in_speed)}
 
-**交换使用率**： {used_swap / total_swap * 100 if total_swap else 0:.1f} %
-
-**磁盘使用率**： {used_disk / total_disk * 100 if total_disk else 0:.1f} %
-
-**下行速度**： ↓ {format_bytes(net_in_speed)} /s
-
-**上行速度**： ↑ {format_bytes(net_out_speed)} /s
+**上行速度**： ↑ {format_bytes(net_out_speed)}
 
 **下行流量**： ↓ {format_bytes(net_in_transfer)}
 
@@ -224,7 +218,8 @@ async def overview(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **流量对等**： {transfer_ratio:.1f} %
 
-**更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
+**更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} 
+
 """
         keyboard = [[InlineKeyboardButton("刷新", callback_data="refresh_overview")]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -405,7 +400,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         response = f"""**{name}** {status}
         
-==========================
 
 **ID**: {server.get('id', '未知')}
 
@@ -419,19 +413,18 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **负载状态**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
 
-**CPU状态**： {cpu_usage:.2f}% [{arch}]
+**CPU状态**： {cpu_usage:.2f} %
 
-**内存状态**： {mem_used / mem_total * 100 if mem_total else 0:.1f}%
+**内存状态**： {mem_used / mem_total * 100 if mem_total else 0:.1f} %
 
-**交换内存**： {swap_used / swap_total * 100 if swap_total else 0:.1f}% 
+**交换内存**： {swap_used / swap_total * 100 if swap_total else 0:.1f} % 
 
-**磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f}%
+**磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f} %
 
-**流量状态**： ↓{format_bytes(net_in_transfer)}     ↑{format_bytes(net_out_transfer)}
+**流量状态**： ⏬  {format_bytes(net_in_transfer)  ⏫  {format_bytes(net_out_transfer)}
 
-**网速状态**： ↓{format_bytes(net_in_speed)}/s     ↑{format_bytes(net_out_speed)}/s
+**更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} 
 
-**更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
 """
         # 添加刷新按钮
         keyboard = [[InlineKeyboardButton("刷新", callback_data=f"refresh_server_{server_id}")]]
@@ -510,11 +503,10 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f}%
 
-**流量状态**： ↓{format_bytes(net_in_transfer)}     ↑{format_bytes(net_out_transfer)}
-
-**网速状态**： ↓{format_bytes(net_in_speed)}/s     ↑{format_bytes(net_out_speed)}/s
+**流量状态**： ↓  {format_bytes(net_in_transfer)}     ↑  {format_bytes(net_out_transfer)}
 
 **更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
+
 """
         keyboard = [[InlineKeyboardButton("刷新", callback_data=f"refresh_server_{server_id}")]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -545,7 +537,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             net_out_transfer = sum(s['state'].get('net_out_transfer', 0) for s in servers if s.get('state'))
             transfer_ratio = (net_out_transfer / net_in_transfer * 100) if net_in_transfer else 0
 
-            response = f"""📊 **统计信息**
+            response = f""" **统计信息**
             
 ===========================
 
@@ -558,10 +550,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 **交换使用率**： {used_swap / total_swap * 100 if total_swap else 0:.1f} % 
 
 **磁盘使用率**： {used_disk / total_disk * 100 if total_disk else 0:.1f} %
-
-**下行速度**： ↓ {format_bytes(net_in_speed)} /s
-
-**上行速度**： ↑ {format_bytes(net_out_speed)} /s
 
 **下行流量**： ↓ {format_bytes(net_in_transfer)}
 

@@ -208,15 +208,9 @@ async def overview(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **在线服务器**： {online_servers}
 
-**下行速度**： ↓ {format_bytes(net_in_speed)}
+**速度信息**： ↓ {format_bytes(net_in_speed)}      ↑ {format_bytes(net_out_speed)}
 
-**上行速度**： ↑ {format_bytes(net_out_speed)}
-
-**下行流量**： ↓ {format_bytes(net_in_transfer)}
-
-**上行流量**： ↑ {format_bytes(net_out_transfer)}
-
-**流量对等**： {transfer_ratio:.1f} %
+**流量信息**： ↓ {format_bytes(net_in_transfer)}   ↑ {format_bytes(net_out_transfer)}
 
 **更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} 
 """
@@ -368,7 +362,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         name = server.get('name', '未知')
         online_status = is_online(server)
-        status = "❇️在线" if online_status else "❌离线"
+        status = "在线" if online_status else "离线"
         ipv4 = server.get('geoip', {}).get('ip', {}).get('ipv4_addr', '未知')
         ipv6 = server.get('geoip', {}).get('ip', {}).get('ipv6_addr', '❌')
 
@@ -402,8 +396,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **ID**: {server.get('id', '未知')}
 
-**IPv4**: {ipv4}
-
 **系统**： {platform}
 
 **CPU信息**： {cpu_info}
@@ -420,7 +412,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f} %
 
-**流量状态**： ⏬ {format_bytes(net_in_transfer)} ⏫ {format_bytes(net_out_transfer)}
+**流量信息**： ⏬ {format_bytes(net_in_transfer)} ⏫ {format_bytes(net_out_transfer)}
 
 **更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} 
 """
@@ -489,7 +481,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **CPU信息**： {cpu_info}
 
-**运行时间**： {uptime_days} 天 {uptime_hours} 小时
+**运行时间**： {uptime_days} 天
 
 **负载状态**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
 
@@ -501,7 +493,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f}%
 
-**流量状态**： ↓  {format_bytes(net_in_transfer)}     ↑  {format_bytes(net_out_transfer)}
+**流量信息**： ↓  {format_bytes(net_in_transfer)}     ↑  {format_bytes(net_out_transfer)}
 
 **更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
 
@@ -549,11 +541,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **磁盘使用率**： {used_disk / total_disk * 100 if total_disk else 0:.1f} %
 
-**下行流量**： ↓ {format_bytes(net_in_transfer)}
-
-**上行流量**： ↑ {format_bytes(net_out_transfer)}
-
-**流量对等**： {transfer_ratio:.1f} %
+**流量信息**： ↓ {format_bytes(net_in_transfer)}   ↑ {format_bytes(net_out_transfer)}
 
 **更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
 """
@@ -667,7 +655,7 @@ async def view_loop_traffic(query, context, api):
             await api.close()
             return
 
-        response = "**循环流量信息总览**\n==========================\n"
+        response = "**循环流量信息总览**\n"
         for stat_name, stats in cycle_stats.items():
             rule_name = stats.get('name', '未知规则')
             server_names = stats.get('server_name', {})
@@ -682,7 +670,7 @@ async def view_loop_traffic(query, context, api):
                 max_transfer_formatted = format_bytes(max_transfer)
                 percentage = (transfer_value / max_transfer * 100) if max_transfer else 0
                 response += f"服务器 **{server_name}**：已使用 {transfer_formatted} / {max_transfer_formatted}，已使用 {percentage:.2f}%\n"
-            response += "--------------------------\n"
+            response += "\n"
 
         response += f"**更新于**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC"
 
@@ -711,7 +699,7 @@ async def view_availability(query, context, api):
             await api.close()
             return
 
-        response = "**可用性监测信息总览**\n==========================\n"
+        response = "**可用性监测信息总览**\n"
         for service_id, service_info in services.items():
             service = service_info.get('service', {})
             name = service_info.get('service_name', '未知')
@@ -719,7 +707,7 @@ async def view_availability(query, context, api):
             total_down = service_info.get('total_down', 0)
             total = total_up + total_down
             availability = (total_up / total * 100) if total else 0
-            status = "🟢 UP" if service_info.get('current_up', 0) else "🔴 DOWN"
+            status = "在线" if service_info.get('current_up', 0) else "离线"
             # 计算平均延迟
             delays = service_info.get('delay', [])
             if delays:
@@ -730,7 +718,7 @@ async def view_availability(query, context, api):
                 delay_text = f"，平均延迟 {avg_delay:.2f}ms"
             else:
                 delay_text = ""
-            response += f"**{name}**：可用率 {availability:.2f}%，状态 {status}{delay_text}\n------------------\n"
+            response += f"**{name}**：在线率: {availability:.2f}%，状态: {status}{delay_text}\n"
         response += f"\n**更新于**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC"
 
         # 添加刷新按钮

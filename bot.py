@@ -420,7 +420,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f} %
 
-**流量状态**： ⏬  {format_bytes(net_in_transfer)  ⏫  {format_bytes(net_out_transfer)}
+**流量状态**： ⏬ {format_bytes(net_in_transfer)} ⏫ {format_bytes(net_out_transfer)}
 
 **更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} 
 """

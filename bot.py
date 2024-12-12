@@ -204,15 +204,15 @@ async def overview(update: Update, context: ContextTypes.DEFAULT_TYPE):
         response = f"""**统计信息**
         
 
-**服务器数量**： {total_servers}
+**数量**： {total_servers}
 
-**在线服务器**： {online_servers}
+**在线**： {online_servers}
 
-**速度信息**： ↓ {format_bytes(net_in_speed)}      ↑ {format_bytes(net_out_speed)}
+**速度**： ↓ {format_bytes(net_in_speed)}      ↑ {format_bytes(net_out_speed)}
 
-**流量信息**： ↓ {format_bytes(net_in_transfer)}   ↑ {format_bytes(net_out_transfer)}
+**流量**： ↓ {format_bytes(net_in_transfer)}   ↑ {format_bytes(net_out_transfer)}
 
-**更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} 
+**更新**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} 
 """
         keyboard = [[InlineKeyboardButton("刷新", callback_data="refresh_overview")]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -398,23 +398,23 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 **系统**： {platform}
 
-**CPU信息**： {cpu_info}
+**CPU**： {cpu_info}
 
-**运行时间**： {uptime_days} 天 {uptime_hours} 小时
+**运行**： {uptime_days} 天 {uptime_hours} 小时
 
-**负载状态**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
+**负载**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
 
-**CPU状态**： {cpu_usage:.2f} %
+**CPU**： {cpu_usage:.2f} %
 
-**内存状态**： {mem_used / mem_total * 100 if mem_total else 0:.1f} %
+**内存**： {mem_used / mem_total * 100 if mem_total else 0:.1f} %
 
-**交换内存**： {swap_used / swap_total * 100 if swap_total else 0:.1f} % 
+**交换**： {swap_used / swap_total * 100 if swap_total else 0:.1f} % 
 
-**磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f} %
+**磁盘**： {disk_used / disk_total * 100 if disk_total else 0:.1f} %
 
-**流量信息**： ⏬ {format_bytes(net_in_transfer)} ⏫ {format_bytes(net_out_transfer)}
+**流量**： ⏬ {format_bytes(net_in_transfer)} ⏫ {format_bytes(net_out_transfer)}
 
-**更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} 
+**更新**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} 
 """
         # 添加刷新按钮
         keyboard = [[InlineKeyboardButton("刷新", callback_data=f"refresh_server_{server_id}")]]
@@ -440,7 +440,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # 同上，构建响应和刷新按钮
         name = server.get('name', '未知') 
         online_status = is_online(server)
-        status = "❇️在线" if online_status else "❌离线"
+        status = "  在线" if online_status else "  离线"
         ipv4 = server.get('geoip', {}).get('ip', {}).get('ipv4_addr', '未知')
         ipv6 = server.get('geoip', {}).get('ip', {}).get('ipv6_addr', '❌')
 
@@ -471,31 +471,28 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         response = f"""**{name}** {status}
         
-==========================
 
 **ID**: {server.get('id', '未知')}
 
-**IPv4**: {ipv4}
-
 **系统**： {platform}
 
-**CPU信息**： {cpu_info}
+**CPU**： {cpu_info}
 
-**运行时间**： {uptime_days} 天
+**运行**： {uptime_days} 天
 
-**负载状态**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
+**负载**： {load_1:.2f} {load_5:.2f} {load_15:.2f}
 
-**CPU状态**： {cpu_usage:.2f}% [{arch}]
+**CPU**： {cpu_usage:.2f} %
 
-**内存状态**： {mem_used / mem_total * 100 if mem_total else 0:.1f}%
+**内存**： {mem_used / mem_total * 100 if mem_total else 0:.1f} %
 
-**交换内存**： {swap_used / swap_total * 100 if swap_total else 0:.1f}% 
+**交换**： {swap_used / swap_total * 100 if swap_total else 0:.1f} % 
 
-**磁盘状态**： {disk_used / disk_total * 100 if disk_total else 0:.1f}%
+**磁盘**： {disk_used / disk_total * 100 if disk_total else 0:.1f} %
 
-**流量信息**： ↓  {format_bytes(net_in_transfer)}     ↑  {format_bytes(net_out_transfer)}
+**流量**： ↓  {format_bytes(net_in_transfer)}     ↑  {format_bytes(net_out_transfer)}
 
-**更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
+**更新**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')}
 
 """
         keyboard = [[InlineKeyboardButton("刷新", callback_data=f"refresh_server_{server_id}")]]
@@ -529,21 +526,21 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             response = f""" **统计信息**
             
-===========================
 
-**服务器数量**： {total_servers}
 
-**在线服务器**： {online_servers}
+**数量**： {total_servers}
 
-**内存使用率**： {used_mem / total_mem * 100 if total_mem else 0:.1f} %
+**在线**： {online_servers}
 
-**交换使用率**： {used_swap / total_swap * 100 if total_swap else 0:.1f} % 
+**内存**： {used_mem / total_mem * 100 if total_mem else 0:.1f} %
 
-**磁盘使用率**： {used_disk / total_disk * 100 if total_disk else 0:.1f} %
+**交换**： {used_swap / total_swap * 100 if total_swap else 0:.1f} % 
 
-**流量信息**： ↓ {format_bytes(net_in_transfer)}   ↑ {format_bytes(net_out_transfer)}
+**磁盘**： {used_disk / total_disk * 100 if total_disk else 0:.1f} %
 
-**更新时间**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
+**流量**： ↓ {format_bytes(net_in_transfer)}   ↑ {format_bytes(net_out_transfer)}
+
+**更新**： {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC
 """
             keyboard = [[InlineKeyboardButton("刷新", callback_data="refresh_overview")]]
             reply_markup = InlineKeyboardMarkup(keyboard)

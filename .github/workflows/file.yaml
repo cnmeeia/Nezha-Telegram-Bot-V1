@@ -22,7 +22,7 @@ jobs:
       - name: Git. Clone
         run: |
           git clone https://github.com/TobiasMarschner/ferrishare.git
-          cd /ferrishare
+          cd ferrishare
 
       - name: Build Docker image
         run: |
